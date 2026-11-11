@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Universe for Omnia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #020617;
+            --deep-blue: #0A1128;
+            --gold: #D4AF37;
+            --light-gold: #F3E5AB;
+            --text-main: #E2E8F0;
+            --text-muted: #94A3B8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            background: var(--navy);
+            background: linear-gradient(135deg, var(--navy) 0%, var(--deep-blue) 100%);
+            color: var(--text-main);
+            font-family: 'Cinzel', serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Universe Background */
+        #stars-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.4);
+            animation: twinkle linear infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: translateY(0) scale(0.8); }
+            50% { opacity: 1; transform: translateY(-20px) scale(1.2); box-shadow: 0 0 12px 2px var(--light-gold); }
+            100% { opacity: 0; transform: translateY(-40px) scale(0.8); }
+        }
+
+        /* Cinematic Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        /* Section 1: The Opening */
+        #opening {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: inherit;
+            z-index: 50;
+            transition: opacity 1.5s ease;
+        }
+        
+        #opening h2 {
+            font-size: 1.2rem;
+            letter-spacing: 6px;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        #opening h1 {
+            font-size: 4.5rem;
+            letter-spacing: 12px;
+            margin: 0 0 2rem;
+            color: var(--light-gold);
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        #opening p {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 4rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .enter-btn {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 1.2rem 3.5rem;
+            font-size: 1rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .enter-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            transform: scale(1.02);
+        }
+
+        /* Main Content Wrapper (Hidden initially) */
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 4rem;
+            letter-spacing: 4px;
+            text-align: center;
+        }
+
+        /* Section 2: Our Story */
+        .timeline {
+            max-width: 800px;
+            width: 100%;
+            border-left: 2px solid rgba(212, 175, 55, 0.3);
+            padding-left: 3rem;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            margin-bottom: 5rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.45rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--navy);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        .timeline-year {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+
+        /* Section 3: The Letter */
+        #letter {
+            background: radial-gradient(circle at center, rgba(10, 17, 40, 0.9) 0%, transparent 70%);
+            padding: 8rem 2rem;
+        }
+
+        .arabic-letter {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+            text-align: right;
+            max-width: 750px;
+            margin: 0 auto;
+            font-size: 1.4rem;
+            line-height: 2.4;
+            color: #F8FAFC;
+        }
+
+        .arabic-letter p {
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        /* Section 4: The Ending */
+        #ending {
+            text-align: center;
+            padding-bottom: 10rem;
+        }
+
+        #ending h3 {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        #ending h4 {
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            letter-spacing: 5px;
+        }
+
+        #ending p {
+            font-size: 1.2rem;
+            color: var(--light-gold);
+            font-style: italic;
+            max-width: 600px;
+            line-height: 2;
+            margin: 0 auto;
+        }
+
+        /* Music Player */
+        #music-player {
+            position: fixed;
+            bottom: 2.5rem;
+            right: 2.5rem;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(10, 17, 40, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            backdrop-filter: blur(5px);
+        }
+
+        #music-player.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #music-player:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 20px;
+        }
+
+        .bar {
+            width: 3px;
+            background: var(--gold);
+            border-radius: 2px;
+            animation: bounce 0ms -800ms linear infinite alternate;
+            transition: height 0.3s;
+        }
+
+        .bars.playing .bar { animation-duration: 500ms; }
+        .bar:nth-child(1) { height: 8px; }
+        .bar:nth-child(2) { height: 16px; animation-delay: -200ms; }
+        .bar:nth-child(3) { height: 10px; animation-delay: -400ms; }
+        .bar:nth-child(4) { height: 18px; animation-delay: -600ms; }
+
+        @keyframes bounce {
+            0% { height: 4px; }
+            100% { height: 20px; }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            #opening h1 { font-size: 3rem; letter-spacing: 8px; }
+            #opening p { font-size: 1rem; padding: 0 1rem; text-align: center; }
+            .section-title { font-size: 2rem; }
+            .timeline { padding-left: 2rem; }
+            .timeline-item::before { left: -2.45rem; }
+            .timeline-text { font-size: 1.1rem; }
+            .arabic-letter { font-size: 1.25rem; line-height: 2.2; padding: 0 1rem; }
+            #ending h4 { font-size: 2rem; }
+            #music-player { bottom: 1.5rem; right: 1.5rem; width: 45px; height: 45px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Universe Background -->
+    <div id="stars-container"></div>
+
+    <!-- Audio Element -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="Bahaa Sultan - Ma3aya.mp3" type="audio/mpeg">
+        <!-- Fallback if missing -->
+    </audio>
+
+    <!-- Floating Music Player -->
+    <div id="music-player" aria-label="Play/Pause Music">
+        <div class="bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </div>
+
+    <!-- Section 1: The Opening -->
+    <section id="opening">
+        <h2 class="reveal active">21 NOVEMBER</h2>
+        <h1 class="reveal active">OMNIA</h1>
+        <p class="reveal active">"Some feelings deserve their own universe."</p>
+        <button class="enter-btn reveal active" id="enter-btn">Enter Our Story</button>
+    </section>
+
+    <!-- Main Content (Revealed after clicking Enter) -->
+    <div id="main-content">
+        
+        <!-- Section 2: Our Story -->
+        <section id="story">
+            <h2 class="section-title reveal">Our Story</h2>
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <h3 class="timeline-year">2023</h3>
+                    <p class="timeline-text">The beginning of our conversations. A simple start that left an entire universe of memories inside me.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <h3 class="timeline-year">2024</h3>
+                    <p class="timeline-text">Our first outing, the cinema memory, and the time we spent together. Details that deserve to be kept forever.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <h3 class="timeline-year">2025</h3>
+                    <p class="timeline-text">Time passed, but some feelings never disappeared. The place you hold within me remains unlike any other.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The Letter -->
+        <section id="letter">
+            <h2 class="section-title reveal" style="font-family: 'Cinzel', serif;">A Letter For You</h2>
+            <div class="arabic-letter">
+                <p class="reveal">مون يـ مون ❣️</p>
+                <p class="reveal">مش عارف أبدأ منين، ولا إزاي أقدر أحط كل اللي جوايا في شوية كلام، بس يمكن النهارده فرصة أقولك حاجات كتير قلبي شايلها من زمان.</p>
+                <p class="reveal">فاكرة أول كلام بينا في 2023؟ مين كان يتخيل إن البداية البسيطة دي هتسيب جوايا كل الذكريات دي؟</p>
+                <p class="reveal">وفاكرة أول خروجة لينا في 2024، ويوم السينما، والوقت اللي قضيناه سوا؟ يمكن كانت لحظات عادية في نظر أي حد، لكن بالنسبالي كانت تفاصيل جميلة، وكل ما بفتكرها بحس إن فيه حاجات في الدنيا تستاهل تتحفظ جوانا.</p>
+                <p class="reveal">من يوم ما عرفتك وإنتِ ليكي مكانة جوايا مش شبه أي حد، وكل ذكرى بينا بتفكرني قد إيه وجودك كان وما زال غالي عندي. ونفسي اللي جمعنا في يوم، يجمعنا تاني على أيام أحلى وعمر أطول.</p>
+                <p class="reveal">يا موون انا بحبك ، وبحب تفاصيلك ، وبحب حتى الحاجات الصغيرة اللي يمكن إنتِ نفسك مش واخدة بالك منها. وحشني كلامك، وضحكتك، وحشني أعرف يومك كان عامل إزاي، وإيه اللي فرحك وإيه اللي ضايقك.</p>
+                <p class="reveal">وحشني إنك تكوني أول شخص أحب أحكيله حاجة حلوة حصلتلي، وأول شخص ييجي في بالي لما أكون محتاج أتكلم.</p>
+                <p class="reveal">فيه ناس بنحبها، وفيه ناس بنتمنى العمر نفسه يكون لينا معاهم.. وإنتِ بالنسبالي الاتنين.</p>
+                <p class="reveal">أنا نفسي أكلمك، ونفسي اشوفك و نرجع نتكلم زي زمان، ونسمع بعض من غير حواجز، ونفهم بعض أكتر. مش عايز نرجع لنفس الحكاية ونكرر كل اللي فات، أنا نفسي نبدأ حكاية أنضج وأجمل، يكون فيها وضوح واهتمام وراحة بال.</p>
+                <p class="reveal">ومش هقولك إن كل حاجة سهلة، ولا إن الطريق دايمًا بيكون مفروش بالورد، لكن فيه حاجات تستاهل إن الواحد يسعى عشانها، وإنتِ من الحاجات اللي أتمنى أكون قد المسؤولية معاها.</p>
+                <p class="reveal">"الحب الحقيقي مش بس إنك تلاقي حد تحبه، الحب إنك تفضل تختاره، وتسعى تكون الشخص اللي يستحق قلبه."</p>
+                <p class="reveal">وعايز أقولك حاجة كمان...</p>
+                <p class="reveal">يمكن أنا لسه مش في المكان اللي نفسي أكون فيه، ولسه عندي حاجات كتير ببنيها في حياتي، وأحلام بحاول أوصلها، ومسؤوليات لازم أكون قدها.</p>
+                <p class="reveal">بس صدقيني، أنا مش واقف مكاني. أنا بعافر وبحاول وأشتغل على نفسي، عشان اليوم اللي أقرر فيه أخد خطوة جدية، أكون راجل جاهز ييجي من الباب، ويطلبك بالحلال، ويكون قد الوعد والمسؤولية.</p>
+                <p class="reveal">ابن الحلال ساعات بيكون لسه بيحارب عشان يبني نفسه، وبنت الحلال تستاهل حد ييجي لها وهو مستعد، مش مجرد حد عنده كلام حلو يقوله.</p>
+                <p class="reveal">كل اللي بتمناه إن ربنا يكتب لنا الخير، ويدينا فرصة نقرب من بعض من جديد، ونبدأ حكاية أجمل، وأكون في يوم من الأيام الشخص اللي يقدر يفرّح قلبك ويكون سند ليكي .</p>
+                <p class="reveal">وفي يوم ميلادك، مش هتمنى ليكي غير كل الخير، وإن ربنا يحققلك أحلامك، ويحفظ ضحكتك، ويكتبلك أيام أجمل من كل اللي فات ، ويجمعنى بيكى ✨</p>
+                <p class="reveal">ويمكن أجمل أمنية عندي في يوم ميلادك، إن ييجي يوم نحتفل فيه بعيد ميلادك وإحنا بنفتكر الكلام ده ونضحك، ونقول: الحمد لله إن ربنا كتب لنا بداية جديدة.</p>
+                <p class="reveal">كل سنة وإنتِ حبيبتي، وكل سنة وإنتِ أجمل أمنية نطق بيها قلبي .</p>
+                <p class="reveal">كل سنة وإنتِ أمنية حلوة، مش بس في اسمك، لكن في قلبي كمان .</p>
+                <p class="reveal">يا زين أيامي، ويا أجمل ما تمنيت ❤️</p>
+            </div>
+        </section>
+
+        <!-- Section 4: The Ending -->
+        <section id="ending">
+            <h3 class="reveal">Forever Yours,</h3>
+            <h4 class="reveal">Mohamed Ghoneim</h4>
+            <p class="reveal">"And maybe, our story still has its most beautiful chapter ahead."</p>
+        </section>
+
+    </div>
+
+    <script>
+        // 1. Generate Universe Background
+        const starsContainer = document.getElementById('stars-container');
+        const numberOfStars = window.innerWidth < 768 ? 60 : 120;
+        
+        for(let i = 0; i < numberOfStars; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            
+            // Randomize sizes and animation timing for depth
+            let size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            let duration = Math.random() * 4 + 3;
+            star.style.animationDuration = duration + 's';
+            star.style.animationDelay = (Math.random() * 5) + 's';
+            
+            starsContainer.appendChild(star);
+        }
+
+        // 2. Audio & Transitions Logic
+        const enterBtn = document.getElementById('enter-btn');
+        const opening = document.getElementById('opening');
+        const mainContent = document.getElementById('main-content');
+        
+        const bgMusic = document.getElementById('bg-music');
+        const musicPlayer = document.getElementById('music-player');
+        const bars = document.querySelector('.bars');
+
+        enterBtn.addEventListener('click', () => {
+            // Attempt to play music
+            bgMusic.play().then(() => {
+                bars.classList.add('playing');
+            }).catch((err) => {
+                console.log("Audio autoplay was prevented. User needs to toggle manually.", err);
+            });
+            
+            musicPlayer.classList.add('visible');
+
+            // Fade out the intro and fade in the universe
+            opening.style.opacity = '0';
+            
+            setTimeout(() => {
+                opening.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // Allow browser to render display:block before fading in
+                setTimeout(() => {
+                    mainContent.style.opacity = '1';
+                    observeElements(); // Start tracking scroll animations
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 100);
+            }, 1500); // Wait for CSS transition to finish
+        });
+
+        // 3. Music Player Controls
+        musicPlayer.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                bars.classList.add('playing');
+            } else {
+                bgMusic.pause();
+                bars.classList.remove('playing');
+            }
+        });
+
+        // 4. Cinematic Scroll Revelations
+        function observeElements() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -10% 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: observer.unobserve(entry.target) if you only want it to animate once
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('#main-content .reveal');
+            revealElements.forEach(el => observer.observe(el));
+        }
+    </script>
+</body>
+</html>
